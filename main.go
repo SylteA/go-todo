@@ -24,12 +24,8 @@ func run(ctx context.Context) error {
 		os.Exit(0)
 	}()
 
-	s := api.NewServer(0)
+	s := api.NewServer(1)
 	s.AddRoutes()
-
-	s.Store.Create("Test", "Desc")
-	s.Store.Create("Test1", "Desc1")
-	s.Store.Create("Test2", "Desc2")
 
 	log.Println("listening on " + *host + ":" + *port)
 	return http.ListenAndServe(net.JoinHostPort(*host, *port), s.Router)

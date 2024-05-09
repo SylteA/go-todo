@@ -18,4 +18,5 @@ type StorageType = int
 
 const (
 	InMemory StorageType = iota
+	JSON     StorageType = iota
 )

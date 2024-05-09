@@ -1,6 +1,7 @@
 package api
 
 import (
+	"flag"
 	"github.com/gorilla/mux"
 	"todo/api/routes"
 	"todo/api/store"
@@ -11,6 +12,11 @@ type Server struct {
 	Store  store.Store
 }
 
+var jsonFilePath = flag.String(
+	"jsonFilePath", "data.json",
+	"Used to override the file todos are stored in.",
+)
+
 func NewServer(storageType store.StorageType) *Server {
 	s := &Server{
 		Router: mux.NewRouter(),
@@ -18,6 +24,9 @@ func NewServer(storageType store.StorageType) *Server {
 	}
 
 	switch storageType {
+	case store.JSON:
+		newStore, _ := store.NewJsonStore(*jsonFilePath)
+		s.Store = newStore
 	default:
 		newStore, _ := store.NewInMemoryStore()
 		s.Store = newStore
